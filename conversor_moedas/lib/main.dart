@@ -9,15 +9,13 @@ void main() async {
   runApp(MaterialApp(
     home: Home(),
     theme: ThemeData(
-        hintColor: Colors.amber,
-        primaryColor: Colors.white,
         inputDecorationTheme: InputDecorationTheme(
-          enabledBorder:
-              OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-          focusedBorder:
-              OutlineInputBorder(borderSide: BorderSide(color: Colors.amber)),
-          hintStyle: TextStyle(color: Colors.amber),
-        )),
+      enabledBorder:
+          OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+      focusedBorder:
+          OutlineInputBorder(borderSide: BorderSide(color: Colors.amber)),
+      hintStyle: TextStyle(color: Colors.amber),
+    )),
   ));
 }
 
@@ -151,6 +149,6 @@ Widget buildTextField(String label, String prefix,
             prefixText: prefix),
         style: TextStyle(color: Colors.amber),
         onChanged: funcao,
-        keyboardType: TextInputType.number,
+        keyboardType: TextInputType.numberWithOptions(decimal: true),
       ));
 }
