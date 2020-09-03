@@ -1,5 +1,7 @@
-import 'package:sqflite/sqflite.dart';
+import 'dart:async';
+
 import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 final String contactTable = "contactTable";
 final String idColumn = "idColumn";
@@ -18,22 +20,23 @@ class ContactHelper {
   Database _db;
 
   Future<Database> get db async {
-    if (db != null) {
+    if (_db != null) {
       return _db;
     } else {
       _db = await initDb();
+      return _db;
     }
-    return _db;
   }
 
   Future<Database> initDb() async {
     final databasesPath = await getDatabasesPath();
-    final path = join(databasesPath, "contacts.db");
+    final path = join(databasesPath, "contactsnew.db");
 
     return await openDatabase(path, version: 1,
         onCreate: (Database db, int newerVersion) async {
       await db.execute(
-          "CREATE TABLE $contactTable($idColumn INTEGER PRIMARY KEY, $nameColumn TEXT, $emailColumn TEXT, $phoneColumn TEXT, $imgColumn TEXT)");
+          "CREATE TABLE $contactTable($idColumn INTEGER PRIMARY KEY, $nameColumn TEXT, $emailColumn TEXT,"
+          "$phoneColumn TEXT, $imgColumn TEXT)");
     });
   }
 
@@ -49,7 +52,6 @@ class ContactHelper {
         columns: [idColumn, nameColumn, emailColumn, phoneColumn, imgColumn],
         where: "$idColumn = ?",
         whereArgs: [id]);
-
     if (maps.length > 0) {
       return Contact.fromMap(maps.first);
     } else {
@@ -69,7 +71,7 @@ class ContactHelper {
         where: "$idColumn = ?", whereArgs: [contact.id]);
   }
 
-  getAllContacts() async {
+  Future<List> getAllContacts() async {
     Database dbContact = await db;
     List listMap = await dbContact.rawQuery("SELECT * FROM $contactTable");
     List<Contact> listContact = List();
