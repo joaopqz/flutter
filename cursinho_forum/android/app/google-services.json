@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "915538723256",
+    "firebase_url": "https://forumcursinho.firebaseio.com",
+    "project_id": "forumcursinho",
+    "storage_bucket": "forumcursinho.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:915538723256:android:070444a5a349a4c95d4f4d",
+        "android_client_info": {
+          "package_name": "com.example.cursinho_forum"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "915538723256-mbajcf81n1cal7cudbqsbq76v2papv45.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cursinho_forum",
+            "certificate_hash": "0ccc510c3964c8cb223dace511e8036c16d94c99"
+          }
+        },
+        {
+          "client_id": "915538723256-4kvlecoo321ofhlr8vj5smbn07etu7ud.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPGJl4t78icP53NsyY-f38Vls-PfHgzAE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "915538723256-4kvlecoo321ofhlr8vj5smbn07etu7ud.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
