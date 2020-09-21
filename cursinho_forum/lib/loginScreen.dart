@@ -1,4 +1,5 @@
 import 'package:cursinho_forum/forumScreen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -9,13 +10,15 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
   final GoogleSignIn googleSignIn = GoogleSignIn();
-  FirebaseUser _currentUser;
+  User _currentUser;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
+    _initialization;
 
     FirebaseAuth.instance.onAuthStateChanged.listen((user) {
       setState(() {
@@ -28,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  Future<FirebaseUser> _getUser() async {
+  Future<User> _getUser() async {
     if (_currentUser != null) return _currentUser;
 
     try {
@@ -37,20 +40,21 @@ class _LoginScreenState extends State<LoginScreen> {
       final GoogleSignInAuthentication googleSignInAuthentication =
           await googleSignInAccount.authentication;
 
+      // ignore: deprecated_member_use
       final AuthCredential credential = GoogleAuthProvider.getCredential(
         idToken: googleSignInAuthentication.idToken,
         accessToken: googleSignInAuthentication.accessToken,
       );
 
-      final AuthResult authResult =
+      final UserCredential authResult =
           await FirebaseAuth.instance.signInWithCredential(credential);
 
-      final FirebaseUser user = authResult.user;
+      final User user = authResult.user;
     } catch (error) {}
   }
 
   void _logIn() async {
-    final FirebaseUser user = await _getUser();
+    final User user = await _getUser();
 
     if (user == null) {
       _scaffoldKey.currentState.showSnackBar(

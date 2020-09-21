@@ -12,7 +12,7 @@ class AddForum extends StatefulWidget {
 
 class _AddForumState extends State<AddForum> {
   bool _isLoading = false;
-  FirebaseUser _currentUser;
+  User _currentUser;
 
   @override
   void initState() {
@@ -26,13 +26,14 @@ class _AddForumState extends State<AddForum> {
   }
 
   void _sendMessage({String assunto, String duvida}) async {
-    final FirebaseUser user = _currentUser;
+    final User user = _currentUser;
 
     Map<String, dynamic> data = {
       "uid": user.uid,
       "senderName": user.displayName,
       "senderPhotoUrl": user.photoUrl,
       "time": Timestamp.now(),
+      "topico": assunto,
       "discussao": duvida
     };
 
@@ -40,11 +41,8 @@ class _AddForumState extends State<AddForum> {
       _isLoading = false;
     });
 
-    Firestore.instance
-        .collection('forum')
-        .document()
-        .collection('$assunto')
-        .add(data);
+    FirebaseFirestore.instance.collection('forum').add({'topico': assunto});
+    FirebaseFirestore.instance.collection(assunto).add(data);
     Navigator.pop(context);
   }
 

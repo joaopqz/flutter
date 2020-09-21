@@ -1,31 +1,27 @@
 import 'package:flutter/material.dart';
 
 class ForumMessage extends StatelessWidget {
-  ForumMessage(this.data, this.mine);
+  ForumMessage(this.data);
 
   final Map<String, dynamic> data;
-  final bool mine;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       child: Row(
-        children: <Widget>[
-          !mine
-              ? Padding(
-                  padding: const EdgeInsets.only(right: 16),
-                  child: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                      data['senderPhotoUrl'],
-                    ),
-                  ),
-                )
-              : Container(),
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(
+                data['senderPhotoUrl'],
+              ),
+            ),
+          ),
           Expanded(
             child: Column(
-              crossAxisAlignment:
-                  mine ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 data['imgUrl'] != null
                     ? Image.network(
@@ -33,8 +29,8 @@ class ForumMessage extends StatelessWidget {
                         width: 250,
                       )
                     : Text(
-                        data['text'],
-                        textAlign: mine ? TextAlign.end : TextAlign.start,
+                        data['discussao'],
+                        textAlign: TextAlign.start,
                         style: TextStyle(fontSize: 20),
                       ),
                 Text(
@@ -47,16 +43,6 @@ class ForumMessage extends StatelessWidget {
               ],
             ),
           ),
-          mine
-              ? Padding(
-                  padding: const EdgeInsets.only(left: 16),
-                  child: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                      data['senderPhotoUrl'],
-                    ),
-                  ),
-                )
-              : Container(),
         ],
       ),
     );

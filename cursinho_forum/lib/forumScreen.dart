@@ -1,7 +1,6 @@
-import 'dart:html';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cursinho_forum/addTopicForum.dart';
+import 'package:cursinho_forum/forumMessagesScreen.dart';
 import 'package:flutter/material.dart';
 
 class ForumScreen extends StatefulWidget {
@@ -13,6 +12,7 @@ class _ForumScreenState extends State<ForumScreen> {
   // ContactHelper helper = ContactHelper();
 
   // List<Contact> contacts = List();
+  CollectionReference forum = FirebaseFirestore.instance.collection('forum');
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,8 @@ class _ForumScreenState extends State<ForumScreen> {
         children: [
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
-              stream: Firestore.instance.collection('forum').snapshots(),
+              stream:
+                  FirebaseFirestore.instance.collection('forum').snapshots(),
               builder: (context, snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
@@ -45,17 +46,22 @@ class _ForumScreenState extends State<ForumScreen> {
                     );
 
                   default:
-                    List<DocumentSnapshot> documents =
-                        snapshot.data.documents.toList();
-                    print(documents);
-
+                    List<QueryDocumentSnapshot> documents = snapshot.data.docs;
+                    print(documents.length);
                     return ListView.builder(
-                      itemCount: documents.length,
-                      reverse: true,
+                      itemCount: snapshot.data.docs.length,
                       itemBuilder: (context, index) {
                         return FlatButton(
-                          onPressed: null,
-                          child: Text(documents[index].data['sender']),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MessagesScreen(
+                                    documents[index].data()['topico']),
+                              ),
+                            );
+                          },
+                          child: Text(documents[index].data()['topico']),
                         );
                       },
                     );
